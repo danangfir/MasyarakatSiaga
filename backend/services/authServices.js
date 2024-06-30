@@ -1,38 +1,25 @@
 const User = require('../models/userModels');
 const bcrypt = require('bcrypt');
-const jwt = require('@hapi/jwt');
+const jwt = require('jsonwebtoken');
 
 exports.register = async (data) => {
-    const hashedPassword = await bcrypt.hash(data.password, 10);
-    const user = new User({ ...data, password: hashedPassword });
-    return await user.save();
+    const { name, email, password } = data;
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const user = new User({ name, email, password: hashedPassword });
+    await user.save();
+    return user;
 };
 
 exports.login = async (data) => {
-   const user = await User.findOne({ email: data.email });
-   if (!user) {
-    throw new Error('User not found');
-   } 
-
-   const isValid = await bcrypt.compare(data.password, user.password);
-   if (!isValid) {
-    throw new Error('Invalid password');
-   }
-
-   const token = jwt.token.generate(
-    {
-        aud: 'urn:audience:test',
-        iss: 'urn:issuer:test',
-        sub: false,
-        maxAgeSec: 14400,
-        timeSkewSec: 15,
-        user: user._id
-    },
-
-    {
-        key: process.env.JWT_SECRET,
-        algorithm: 'HS256'
+    const { email, password } = data;
+    const user = await User.findOne({ email });
+    if (!user) {
+        throw new Error('User not found');
     }
-   );
-   return token;
-}
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+        throw new Error('Invalid credentials');
+    }
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    return { user, token };
+};

@@ -1,4 +1,4 @@
-const Volunteer = require('../models/volunteerModel');
+const Volunteer = require('../models/volunteerModels');
 
 exports.getAllVolunteers = async () => {
     return await Volunteer.find({});

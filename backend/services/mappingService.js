@@ -1,4 +1,4 @@
-const Mapping = require('../models/mappingModel');
+const Mapping = require('../models/mappingModels');
 
 exports.getAllMappings = async () => {
     return await Mapping.find({});

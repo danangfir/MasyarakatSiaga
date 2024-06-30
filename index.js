@@ -3,12 +3,14 @@
 require('dotenv').config();
 const Hapi = require('@hapi/hapi');
 const mongoose = require('mongoose');
-const routes = require('./routes');
+const routes = require('./backend/routes');
 const jwt = require('@hapi/jwt');
+const swaggerDocs = require('./swagger');
+const helmet = require('helmet');
 
 const init = async () => {
     const server = Hapi.server({
-        port: process.env.PORT,
+        port: process.env.PORT || 3000,
         host: 'localhost'
     });
 
@@ -16,6 +18,7 @@ const init = async () => {
         useNewUrlParser: true,
         useUnifiedTopology: true
     });
+    console.log('Connected to MongoDB');
 
     await server.register(jwt);
 
@@ -41,9 +44,12 @@ const init = async () => {
     server.auth.default('jwt');
 
     server.route(routes);
+    swaggerDocs(server);
 
     await server.start();
     console.log('Server running on %s', server.info.uri);
+
+    return server;
 };
 
 process.on('unhandledRejection', (err) => {
@@ -51,4 +57,8 @@ process.on('unhandledRejection', (err) => {
     process.exit(1);
 });
 
-init();
+module.exports = { init };
+
+if (require.main === module) {
+    init();
+}

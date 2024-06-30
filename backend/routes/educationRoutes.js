@@ -1,17 +1,29 @@
-const EducationController = require('../controllers/educationController');
+const educationController = require('../controllers/educationController');
 
 module.exports = [
     {
         method: 'GET',
         path: '/education',
-        handler: EducationController.getallEducation
+        handler: educationController.getAllEducation
     },
-
     {
         method: 'POST',
         path: '/education',
-        handler: EducationController.createEducation
+        handler: educationController.createEducation
     },
-
-    // Add routes as needed
+    {
+        method: 'GET',
+        path: '/education/{id}',
+        handler: educationController.getEducationById
+    },
+    {
+        method: 'PUT',
+        path: '/education/{id}',
+        handler: educationController.updateEducation
+    },
+    {
+        method: 'DELETE',
+        path: '/education/{id}',
+        handler: educationController.deleteEducation
+    }
 ];

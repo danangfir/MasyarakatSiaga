@@ -1,13 +1,19 @@
-const authRoutes = require('./authRoutes');
 const disasterRoutes = require('./disasterRoutes');
+const authRoutes = require('./authRoutes');
 const educationRoutes = require('./educationRoutes');
-const mappingRoutes = require('./mappingRoutes');
 const volunteerRoutes = require('./volunteerRoutes');
+const mappingRoutes = require('./mappingRoutes');
+
+console.log('Disaster Routes:', disasterRoutes);
+console.log('Auth Routes:', authRoutes);
+console.log('Education Routes:', educationRoutes);
+console.log('Volunteer Routes:', volunteerRoutes);
+console.log('Mapping Routes:', mappingRoutes);
 
 module.exports = [
-    ...authRoutes,
     ...disasterRoutes,
+    ...authRoutes,
     ...educationRoutes,
-    ...mappingRoutes,
-    ...volunteerRoutes
+    ...volunteerRoutes,
+    ...mappingRoutes
 ];

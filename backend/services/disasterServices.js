@@ -1,4 +1,4 @@
-const Disaster = require('../models/disasterModel');
+const Disaster = require('../models/disasterModels');
 
 exports.getAllDisasters = async () => {
     return await Disaster.find({});

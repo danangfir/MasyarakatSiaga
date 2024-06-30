@@ -1,21 +1,29 @@
-const DisasterController = require('../controllers/disasterController');
+const disasterController = require('../controllers/disasterController');
 
 module.exports = [
     {
         method: 'GET',
         path: '/disasters',
-        handler: DisasterController.getAllDisasters,
-        options: {
-            auth: 'jwt'
-        }
+        handler: disasterController.getAllDisasters
     },
     {
         method: 'POST',
         path: '/disasters',
-        handler: DisasterController.createDisaster,
-        options: {
-            auth: 'jwt'
-        }
+        handler: disasterController.createDisaster
     },
-    // Add other routes as needed
+    {
+        method: 'GET',
+        path: '/disasters/{id}',
+        handler: disasterController.getDisasterById
+    },
+    {
+        method: 'PUT',
+        path: '/disasters/{id}',
+        handler: disasterController.updateDisaster
+    },
+    {
+        method: 'DELETE',
+        path: '/disasters/{id}',
+        handler: disasterController.deleteDisaster
+    }
 ];
